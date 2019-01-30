@@ -17,13 +17,12 @@ export default {
     *login({ payload }, { call, put }) {
       // Login successfully
       const response = yield call(fakeAccountLogin, payload);
-      console.info(JSON.stringify(response));
       if (response.code === 200) {
         const authorityList = [];
         response.data.authorities.forEach( key => {
           authorityList.push(key);
         });
-        console.log(response.data.authorities);
+        // console.log(response.data.authorities);
         yield put({
           type: 'changeLoginStatus',
           payload: {

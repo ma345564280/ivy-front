@@ -18,6 +18,8 @@ export default {
   'app.forms.basic.title': '上传我的作品',
   'app.forms.basic.description':
     '表單頁用於向用戶收集或驗證信息，基礎表單常見於數據項較少的表單場景。',
+  'web.form.design': '上传你的作品',
+  'web.form.profile': '展示你的主页',
   ...analysis,
   ...exception,
   ...form,

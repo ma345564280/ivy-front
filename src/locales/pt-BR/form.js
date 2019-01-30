@@ -40,6 +40,14 @@ export default {
   'form.radio.hotel': 'Hotel',
   'form.radio.guesthouse': 'Guest House',
   'form.radio.house': 'House Or Villa',
+
+  'form.radio.company.type.design': 'Design Company',
+  'form.radio.company.type.decoration': 'Decoration Company',
+  'form.radio.company.type.design.studio': 'Design Studio',
+  'form.radio.company.type.design.drawing': 'Drawing Company',
+
+  'form.radio.isNegotiable': 'Negotiate',
+
   'form.publicUsers.placeholder': 'Open to',
   'form.publicUsers.option.A': 'Colleague A',
   'form.publicUsers.option.B': 'Colleague B',

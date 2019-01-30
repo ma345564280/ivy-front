@@ -10,6 +10,6 @@ describe('Homepage', () => {
       timeout: 2000,
     });
     const text = await page.evaluate(() => document.getElementsByTagName('h1')[0].innerText);
-    expect(text).toContain('Ant Design Pro');
+    expect(text).toContain('BoYa Net');
   });
 });

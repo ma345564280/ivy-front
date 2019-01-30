@@ -35,4 +35,7 @@ export default {
   'menu.account.settings': 'Configurar Conta',
   'menu.account.trigger': 'Disparar Erro',
   'menu.account.logout': 'Sair',
+
+  'menu.welcome': 'Welcome',
+  'menu.profile.profile': 'My Profile',
 };

@@ -1,28 +1,35 @@
 import { message, Modal } from 'antd';
-import { submitDesignDetail } from '../../../services/api';
+import { saveShareInfo } from '../../../services/api';
 
 export default {
-  namespace: 'form',
-  state : {},
+  namespace: 'profileform',
+
+  state: {
+
+  },
 
   effects: {
-    *submitDesignForm({ payload }, { call }) {
+
+    *submitProfileForm({ payload }, { call }) {
       console.log(payload);
-      const response = yield call(submitDesignDetail, payload);
+      const response = yield call(saveShareInfo, payload);
+
       if(response && response.code === 200) {
         Modal.success({
-          title: '作品提交成功',
+          title: '编辑成功',
           onOk: () => {
-            window.location.href = '/dashboard/analysis';
+            window.location.href = '/profile/profile';
           },
         });
 
       } else {
         message.error('提交失败，请稍后再试！');
-        console.error(response.msg)
+        console.error(response.msg);
+
       }
     },
-  },
+
+},
 
   reducers: {
     save(state, { payload }) {

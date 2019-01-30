@@ -14,7 +14,7 @@ export default {
   'app.register-result.msg': '妳的賬戶：{email} 註冊成功',
   'app.register-result.activation-email':
     '激活郵件已發送到妳的郵箱中，郵件有效期為24小時。請及時登錄郵箱，點擊郵件中的鏈接激活帳戶。',
-  'app.register-result.back-home': '返回首頁',
+  'app.register-result.back-home': '返回登录页',
   'app.register-result.view-mailbox': '查看郵箱',
   'validation.email.required': '請輸入郵箱地址！',
   'validation.email.wrong-format': '郵箱地址格式錯誤！',

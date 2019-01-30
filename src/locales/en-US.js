@@ -18,6 +18,11 @@ export default {
   'app.forms.basic.title': 'Index My Design',
   'app.forms.basic.description':
     'Form pages are used to collect or verify information to users, and basic forms are common in scenarios where there are fewer data items.',
+  'web.form.design': 'Upload Your Design',
+  'web.form.profile': 'Describe Your Talent',
+  // 'web.upload.design': '',
+  // 'web.upload.design': '',
+
   ...analysis,
   ...exception,
   ...form,

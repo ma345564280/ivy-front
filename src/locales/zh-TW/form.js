@@ -45,4 +45,12 @@ export default {
   'form.publicUsers.option.A': '同事甲',
   'form.publicUsers.option.B': '同事乙',
   'form.publicUsers.option.C': '同事丙',
+
+  'form.radio.company.type.design': '设计公司',
+  'form.radio.company.type.decoration': '装饰公司',
+  'form.radio.company.type.design.studio': '设计工作室',
+  'form.radio.company.type.design.drawing': '效果图公司',
+
+  'form.radio.isNegotiable': '面议',
+
 };

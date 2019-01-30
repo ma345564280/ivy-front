@@ -18,7 +18,7 @@ export default {
 
   effects: {
     *fetch({payload}, { call, put }) {
-      console.log(payload);
+      console.log('fetch chart')
       const responseOrderStatistic = yield call(queryDesignerOrdersOverView, {
         designerId: sessionStorage.getItem('userId'),
         days: 7

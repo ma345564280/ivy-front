@@ -1,18 +1,18 @@
-import { queryDesigns } from '@/services/api';
+import { queryAppointment } from '@/services/api';
 
 export default {
-  namespace: 'design',
+  namespace: 'appointment',
 
   state: {
-    designList:[],
+    appointments:[],
     total: 0,
     pageSize: 0,
     pageNo: 0
   },
 
   effects: {
-    *fetchDesign({ payload }, { call, put }) {
-      const respDesigns = yield  call(queryDesigns, {
+    *fetchAppointments({ payload }, { call, put }) {
+      const respDesigns = yield  call(queryAppointment, {
         designerId: sessionStorage.getItem('userId'),
         pageNo: payload.pageNo,
         pageSize: payload.pageSize,
@@ -20,9 +20,9 @@ export default {
       });
 
       yield put({
-        type: 'queryDesignList',
+        type: 'queryAppointment',
         payload: {
-          designList: respDesigns.data.list,
+          appointments: respDesigns.data.list,
           total: respDesigns.data.total,
           pageSize: Number(respDesigns.data.pageSize),
           pageNo: Number(respDesigns.data.pageNum),
@@ -32,7 +32,7 @@ export default {
   },
 
   reducers: {
-    queryDesignList(state, {payload}) {
+    queryAppointment(state, {payload}) {
       return {
         ...state,
         ...payload,

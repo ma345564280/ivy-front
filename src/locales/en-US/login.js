@@ -14,7 +14,7 @@ export default {
   'app.register-result.msg': 'Account：registered at {email}',
   'app.register-result.activation-email':
     'The activation email has been sent to your email address and is valid for 24 hours. Please log in to the email in time and click on the link in the email to activate the account.',
-  'app.register-result.back-home': 'Back to home',
+  'app.register-result.back-home': 'Back to Login Page',
   'app.register-result.view-mailbox': 'View mailbox',
   'validation.email.required': 'Please enter your email!',
   'validation.email.wrong-format': 'The email address is in the wrong format!',

@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
 import router from 'umi/router';
-import { Form, Input, Button, Select, Row, Col, Popover, Progress } from 'antd';
+import { Form, Input, Button, Select, Row, Col, Popover, Progress,message } from 'antd';
 import styles from './Register.less';
 
 const FormItem = Form.Item;
@@ -50,7 +50,7 @@ class Register extends Component {
 
   componentDidUpdate() {
     const { form, register } = this.props;
-    const account = form.getFieldValue('mail');
+    const account = form.getFieldValue('username');
     if (register.status === 'ok') {
       router.push({
         pathname: '/user/register-result',
@@ -58,6 +58,8 @@ class Register extends Component {
           account,
         },
       });
+    } else {
+      // message.error(register.msg);
     }
   }
 
@@ -176,7 +178,7 @@ class Register extends Component {
   render() {
     const { form, submitting } = this.props;
     const { getFieldDecorator } = form;
-    const { count, prefix, help, visible } = this.state;
+    const { prefix, help, visible } = this.state;
     return (
       <div className={styles.main}>
         <h3>
@@ -184,7 +186,23 @@ class Register extends Component {
         </h3>
         <Form onSubmit={this.handleSubmit}>
           <FormItem>
-            {getFieldDecorator('mail', {
+            {getFieldDecorator('userName', {
+              rules: [
+                {
+                  required: true,
+                  message: "请输入用户名",
+                },
+                {
+                  pattern:  /^[a-zA-Z]+[a-zA-Z0-9_-]{4,16}$/,
+                  message: "4到16位（字母开头，其他字母，数字，下划线，减号任意组合）",
+                },
+              ],
+            })(
+              <Input size="large" placeholder="用户名" />
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('email', {
               rules: [
                 {
                   required: true,
@@ -263,7 +281,7 @@ class Register extends Component {
               {getFieldDecorator('mobile', {
                 rules: [
                   {
-                    required: true,
+                    required: false,
                     message: formatMessage({ id: 'validation.phone-number.required' }),
                   },
                   {
@@ -279,37 +297,6 @@ class Register extends Component {
                 />
               )}
             </InputGroup>
-          </FormItem>
-          <FormItem>
-            <Row gutter={8}>
-              <Col span={16}>
-                {getFieldDecorator('captcha', {
-                  rules: [
-                    {
-                      required: true,
-                      message: formatMessage({ id: 'validation.verification-code.required' }),
-                    },
-                  ],
-                })(
-                  <Input
-                    size="large"
-                    placeholder={formatMessage({ id: 'form.verification-code.placeholder' })}
-                  />
-                )}
-              </Col>
-              <Col span={8}>
-                <Button
-                  size="large"
-                  disabled={count}
-                  className={styles.getCaptcha}
-                  onClick={this.onGetCaptcha}
-                >
-                  {count
-                    ? `${count} s`
-                    : formatMessage({ id: 'app.register.get-verification-code' })}
-                </Button>
-              </Col>
-            </Row>
           </FormItem>
           <FormItem>
             <Button

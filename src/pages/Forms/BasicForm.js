@@ -1,6 +1,4 @@
 import React  from 'react';
-import Cropper from 'react-cropper';
-import lrz from 'lrz'
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import {
@@ -11,12 +9,11 @@ import {
   Radio,
   Button,
   Cascader,
-  Upload,
-  Icon,
-  Modal,
 } from 'antd';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import '../../../node_modules/cropperjs/dist/cropper.css'; // 需要找到相对的 node_modules 路径，必须引入该css文件！
+import PageHeaderWrapper from '../../components/PageHeaderWrapper';
+import '../../../node_modules/cropperjs/dist/cropper.css';
+import CropPicture from '../../components/CropPicture'; // 需要找到相对的 node_modules 路径，必须引入该css文件！
+import ChargeRange from '../../components/ChargeRange'; // 需要找到相对的 node_modules 路径，必须引入该css文件！
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -50,23 +47,6 @@ const residences = [{
 }))
 @Form.create()
 class BasicForms extends React.Component {
-  constructor(props) {
-    super(props);
-    this.beforeUpload = this.beforeUpload.bind(this);
-    this.saveImg = this.saveImg.bind(this);
-  }
-
-  state = {
-    previewVisible: false,
-    previewImage: '',
-    fileList: [],
-    srcCropper: '',
-    selectImgName: '',
-    selectImgSuffix: '',
-    editImageModalVisible: false,
-  };
-
-
 
   componentWillMount() {
     if(sessionStorage.getItem('signedIn') === 'yes') {
@@ -80,18 +60,6 @@ class BasicForms extends React.Component {
       title: `Hi,!`,
     });
   };
-
-  handleCancel = () => this.setState({ previewVisible: false })
-
-  handlePreview = (file) => {
-    this.setState({
-      previewImage: file.url || file.thumbUrl,
-      previewVisible: true,
-    });
-  }
-
-  handleChange = ({ fileList }) => this.setState({ fileList })
-
 
   handleSubmit = e => {
     const { dispatch, form } = this.props;
@@ -110,71 +78,10 @@ class BasicForms extends React.Component {
     console.log(`selected ${e}`);
   }
 
-  handleHeadPicture = (e) => {
-
-    if (Array.isArray(e)) {
-      return e.fileList;
-    }
-    return e.fileList;
-  }
-
-  handlePictures = (e) => {
-    if (Array.isArray(e)) {
-      return e.fileList;
-    }
-    return e.fileList;
-  }
-
-  handleCropperCancel = () => {
-    this.setState({ editImageModalVisible: false, selectImgName: ""}) }
-
-  // Upload上传之前函数
-  beforeUpload(file) {
-    const isLt10M = file.size / 1024 / 1024 < 10;
-    if (!isLt10M) { // 添加文件限制
-      // MsgBox.error({content: '文件大小不能超过10M'});
-      return false;
-    }
-    const reader=new FileReader();
-    reader.readAsDataURL(file); // 开始读取文件
-    // console.log(file)
-    // 因为读取文件需要时间,所以要在回调函数中使用读取的结果
-    reader.onload = (e) => {
-      console.log(e.target.result);
-      this.setState({
-        srcCropper: e.target.result, // cropper的图片路径
-        selectImgName: file.name, // 文件名称
-        selectImgSize: (file.size / 1024 / 1024), // 文件大小
-        selectImgSuffix: file.type.split("/")[1], // 文件类型
-        editImageModalVisible: true, // 打开控制裁剪弹窗的变量，为true即弹窗
-      })
-    }
-    return false;
-  }
-
-  // 点击保存的函数，需要在这里进行压缩
-  saveImg() {
-    const {selectImgSuffix, selectImgName} = this.state;
-    // lrz压缩
-    // this.refs.cropper.getCroppedCanvas().toDataURL() 为裁剪框的base64的值
-    lrz(this.refs.cropper.getCroppedCanvas().toDataURL(), {quality: 0.6}).then((results)=> {
-      // results为压缩后的结果
-      console.log(results);
-      this.props.uploadImgByBase64({ // uploadImgByBase64为连接后台的接口
-        imgbase: results.base64, // 取base64的值传值
-        imgsize: results.fileLen, // 压缩后的图片大下
-        suffix: selectImgSuffix, // 文件类型
-        filename: selectImgName, // 文件名
-      })
-    })
-  }
-
-
   render() {
-    const { previewVisible, previewImage, fileList, editImageModalVisible, srcCropper, } = this.state;
-    const { submitting, loading } = this.props;
+    const { submitting } = this.props;
     const {
-      form: { getFieldDecorator, getFieldValue },
+      form: { getFieldDecorator },
     } = this.props;
 
     const formItemLayout = {
@@ -196,51 +103,39 @@ class BasicForms extends React.Component {
       },
     };
 
-    const uploadButton = (
-      <div>
-        <Icon type="plus" />
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
-
     return (
       <PageHeaderWrapper
         title={<FormattedMessage id="app.forms.basic.title" />}
         // content={<FormattedMessage id="app.forms.basic.description" />}
       >
         <Card bordered={false}>
-          <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
+          <Form onSubmit={this.handleSubmit} style={{ marginTop: 8 }}>
             <FormItem {...formItemLayout} label={<FormattedMessage id="form.title.label" />}>
               {getFieldDecorator('title', {
                 rules: [
                   {
-                    required: false,
+                    required: true,
                     message: formatMessage({ id: 'validation.title.required' }),
                   },
                 ],
               })(<Input placeholder={formatMessage({ id: 'form.title.placeholder' })} />)}
             </FormItem>
+
             <FormItem {...formItemLayout} label={<FormattedMessage id="form.design.cost.label" />}>
               {getFieldDecorator('priceRange', {
                 rules: [
                   {
                     required: true,
-                    message: '请选择价格区间',
+                    message: '请输入价格区间',
                   },
                 ],
               })(
-                <Select onChange={this.handleSelectorChange}>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="disabled" disabled>Disabled</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
-                </Select>
+                <ChargeRange />
               )}
             </FormItem>
 
             <FormItem {...formItemLayout} label={<FormattedMessage id="form.design.Cover.picture.label" />}>
               {getFieldDecorator('uploadHeadPicture', {
-                getValueFromEvent: this.handleHeadPicture,
                 rules: [
                   {
                     required: true,
@@ -248,17 +143,7 @@ class BasicForms extends React.Component {
                   },
                 ],
               })(
-                <Upload
-                  name="file"
-                  action="/ivy-root/file/design/uploadPicture"
-                  listType="picture-card"
-                  fileList={fileList}
-                  onPreview={this.handlePreview}
-                  beforeUpload={this.beforeUpload} // 阻止自动上传
-                  onChange={this.handleChange}
-                >
-                  {fileList.length >= 1 ? null : uploadButton}
-                </Upload>
+                <CropPicture count={1} ratio={16/9} />
               )}
             </FormItem>
 
@@ -300,7 +185,6 @@ class BasicForms extends React.Component {
               )}
             </FormItem>
 
-
             <FormItem {...formItemLayout} label={<FormattedMessage id="form.design.style" />}>
               {getFieldDecorator('designStyle', {
                 rules: [
@@ -311,24 +195,28 @@ class BasicForms extends React.Component {
                 ],
               })(
                 <Select onChange={this.handleSelectorChange}>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="disabled" disabled>Disabled</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
+                  <Option value="美式乡村风格">美式乡村风格</Option>
+                  <Option value="古典欧式风格">古典欧式风格</Option>
+                  <Option value="地中海式风格">地中海式风格</Option>
+                  <Option value="东南亚风格">东南亚风格</Option>
+                  <Option value="日式风格">日式风格</Option>
+                  <Option value="新古典风格">新古典风格</Option>
+                  <Option value="新古典风格">现代简约风格</Option>
+                  <Option value="新中式风格">新中式风格</Option>
                 </Select>
               )}
             </FormItem>
 
             <FormItem {...formItemLayout} label={<FormattedMessage id="form.design.pictures.label" />}>
               {getFieldDecorator('uploadDesignPictures', {
-                valuePropName: 'fileList',
-                getValueFromEvent: this.handlePictures,
+                rules: [
+                  {
+                    required: false,
+                    message: '请上传作品图集',
+                  },
+                ]
               })(
-                <Upload name="file" action="/ivy-root/file/design/uploadPicture" listType="picture">
-                  <Button>
-                    <Icon type="upload" /> Click to upload
-                  </Button>
-                </Upload>
+                <CropPicture count={20} ratio={16/9} />
               )}
             </FormItem>
 
@@ -336,7 +224,7 @@ class BasicForms extends React.Component {
               {getFieldDecorator('brief', {
                 rules: [
                   {
-                    required: true,
+                    required: false,
                     message: formatMessage({ id: 'validation.design.brief.required' }),
                   },
                 ],
@@ -358,44 +246,6 @@ class BasicForms extends React.Component {
           </Form>
         </Card>
 
-        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
-        </Modal>
-
-        <Modal
-          key="cropper_img_modal_key"
-          visible={editImageModalVisible}
-          loading={loading}
-          footer={[
-            <Button
-              type="primary"
-              onClick={this.saveImg}
-              loading={loading}
-            >
-              保存
-            </Button>,
-            <Button
-              onClick={this.handleCropperCancel}
-              loading={loading}
-            >
-              取消
-            </Button>
-          ]}
-        >
-          <Cropper
-            src={srcCropper} // 图片路径，即是base64的值，在Upload上传的时候获取到的
-            ref="cropper"
-            style={{ height: 600 }}
-            preview='.cropper-preview'
-            className="company-logo-cropper"
-            viewMode={1} // 定义cropper的视图模式
-            zoomable={false} // 是否允许放大图像
-            aspectRatio={3/4} // image的纵横比
-            guides // 显示在裁剪框上方的虚线
-            background={false} // 是否显示背景的马赛克
-            rotatable // 是否旋转
-          />
-        </Modal>
       </PageHeaderWrapper>
     );
   }

@@ -43,4 +43,11 @@ export default {
   'form.publicUsers.option.A': 'Colleague A',
   'form.publicUsers.option.B': 'Colleague B',
   'form.publicUsers.option.C': 'Colleague C',
+
+  'form.radio.company.type.design': 'Design Company',
+  'form.radio.company.type.decoration': 'Decoration Company',
+  'form.radio.company.type.design.studio': 'Design Studio',
+  'form.radio.company.type.design.drawing': 'Drawing Company',
+
+  'form.radio.isNegotiable': 'Negotiate',
 };
