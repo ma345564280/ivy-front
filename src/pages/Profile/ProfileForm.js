@@ -15,33 +15,11 @@ import ChargeRange from '../../components/ChargeRange';
 import PicturesWall from '../../components/PicturesWall';
 import HotTags from '../../components/HotTags';
 import CropPicture from '../../components/CropPicture';
+import residences from '../../models/residences'
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
-const residences = [{
-  value: 'zhejiang',
-  label: 'Zhejiang',
-  children: [{
-    value: 'hangzhou',
-    label: 'Hangzhou',
-    children: [{
-      value: 'xihu',
-      label: 'West Lake',
-    }],
-  }],
-}, {
-  value: 'jiangsu',
-  label: 'Jiangsu',
-  children: [{
-    value: 'nanjing',
-    label: 'Nanjing',
-    children: [{
-      value: 'zhonghuamen',
-      label: 'Zhong Hua Men',
-    }],
-  }],
-}];
 const tagsSkillAt = ['样板间', '家居别墅', '酒店餐饮', '民宿'];
 const tagsServiceType = ['设计', '施工'];
 const { Option } = Select;
@@ -131,7 +109,7 @@ class ProfileForm extends PureComponent {
 
             <FormItem {...formItemLayout} label='所在地'>
               {getFieldDecorator('address', {
-                initialValue: ['zhejiang', 'hangzhou', 'xihu'],
+                initialValue: ['江苏','南京'],
                 rules: [
                   {
                     required: true,

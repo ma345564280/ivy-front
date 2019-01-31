@@ -14,33 +14,11 @@ import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import '../../../node_modules/cropperjs/dist/cropper.css';
 import CropPicture from '../../components/CropPicture'; // 需要找到相对的 node_modules 路径，必须引入该css文件！
 import ChargeRange from '../../components/ChargeRange'; // 需要找到相对的 node_modules 路径，必须引入该css文件！
+import residences from '../../models/residences'
 
 const FormItem = Form.Item;
 const { Option } = Select;
 const { TextArea } = Input;
-const residences = [{
-  value: 'zhejiang',
-  label: 'Zhejiang',
-  children: [{
-    value: 'hangzhou',
-    label: 'Hangzhou',
-    children: [{
-      value: 'xihu',
-      label: 'West Lake',
-    }],
-  }],
-}, {
-  value: 'jiangsu',
-  label: 'Jiangsu',
-  children: [{
-    value: 'nanjing',
-    label: 'Nanjing',
-    children: [{
-      value: 'zhonghuamen',
-      label: 'Zhong Hua Men',
-    }],
-  }],
-}];
 
 @connect(({ loading }) => ({
   submitting: loading.effects['form/submitRegularForm'],
@@ -178,7 +156,7 @@ class BasicForms extends React.Component {
 
             <FormItem {...formItemLayout} label={<FormattedMessage id="form.selector.city.cascade" />}>
               {getFieldDecorator('residence', {
-                initialValue: ['zhejiang', 'hangzhou', 'xihu'],
+                initialValue: ['江苏','南京'],
                 rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }],
               })(
                 <Cascader options={residences} />

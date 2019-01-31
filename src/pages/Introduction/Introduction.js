@@ -4,27 +4,14 @@ import { Layout, Card, Row, Col, Form, Input, Button, Tag, Carousel, Avatar, Cas
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import GridContent from '../../components/PageHeaderWrapper/GridContent';
 import styles  from './Introduction.less'
+import residences from '../../models/residences'
 
 
 const FormItem = Form.Item;
 const { Option } = Select;
 const { TextArea } = Input;
 const prefixImgUrl  = 'http://localhost/ivy-root/file/design/downloadCompressPicture?fileId=';
-const residences = [{
-  value: '浙江',
-  label: '浙江',
-  children: [{
-    value: '杭州',
-    label: '杭州',
-  }],
-}, {
-  value: '江苏',
-  label: '江苏',
-  children: [{
-    value: '南京',
-    label: '南京',
-  }],
-}];
+
 
 
 @connect(({ share, loading}) => ({
