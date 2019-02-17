@@ -251,3 +251,14 @@ export async function queryAppointment(params) {
     },
   });
 }
+
+
+export async function queryCurrent(params) {
+  return request(`/ivy-root/user/queryCurrent`, {
+    method: 'POST',
+    body: {
+      userId: sessionStorage.getItem('userId'),
+    },
+  });
+}
+

@@ -92,6 +92,41 @@ export default [
         ],
       },
       {
+        path: '/account',
+        name: 'account',
+        icon: 'user',
+        routes: [
+          {
+            path: '/account/settings',
+            name: 'settings',
+            component: './Account/Settings/Info',
+            authority: ['VIEW_DESIGN_PAGE'],
+            routes: [
+              {
+                path: '/account/settings',
+                redirect: '/account/settings/base',
+              },
+              {
+                path: '/account/settings/base',
+                component: './Account/Settings/BaseView',
+              },
+              {
+                path: '/account/settings/security',
+                component: './Account/Settings/SecurityView',
+              },
+              {
+                path: '/account/settings/binding',
+                component: './Account/Settings/BindingView',
+              },
+              {
+                path: '/account/settings/notification',
+                component: './Account/Settings/NotificationView',
+              },
+            ],
+          },
+        ],
+      },
+      {
         component: '404',
       },
     ],

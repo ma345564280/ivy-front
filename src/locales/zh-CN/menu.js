@@ -38,4 +38,5 @@ export default {
 
   'menu.welcome': '欢迎',
   'menu.profile.profile': '我的介绍',
+
 };
